@@ -152,7 +152,7 @@ function onButtonChange(state) {
     if (state == 'Released')
     {
 	if (count%2 == 1) {
-	    var file_name = './audio/'+ date.format(new Date(), 'YYMMDD-HHmmss') + '.pcm';
+	    var file_name = '/home/pi/node_modules/thingy52/microphone/audio/'+ date.format(new Date(), 'YYMMDD-HHmmss') + '.pcm';
 	    outF = fs.createWriteStream(file_name, {flags:'w+'});
 	    connected_thingy.mic_enable(function(error) {
 		console.log('Microphone enabled! ' + ((error) ? error : ''));
