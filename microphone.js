@@ -209,15 +209,11 @@ function onDiscover(thingy) {
 
 console.log('Microphone example, press the button on the Thingy:52 before speaking.');
 
+//Option '-a': specify Thingy ID to connect
 process.argv.forEach(function(val, index, array) {
     if (val == '-a') {
         if (process.argv[index + 1]) {
             thingy_id = process.argv[index + 1];
-        }
-    }
-    else if (val == '-d') {
-        if (process.argv[index + 1]) {
-            sound_device = process.argv[index + 1];
         }
     }
 });
