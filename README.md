@@ -44,7 +44,15 @@ npm install date-and-time
 3. Run microphone.js: `sudo node microphone.js`
 4. When Thingy52 is connected to Raspberry Pi, press button to record
 5. Recorded file is saved as pcm file format
-6. Convert raw pcm to WAV file using ffmpeg
+6. To autostart microphone.js,
+> edit /etc/xdg/lxsession/LXDE-pi/autostart to
+```
+@lxpanel --profile LXDE-pi
+@pcmanfm --desktop --profile LXDE-pi
+@xscreensaver -no-splash
+@/home/pi/node_modules/thingy52/microphone/exe.sh
+```
+7. Convert raw pcm to WAV file using ffmpeg
 > [Installing ffmpeg on Raspbian](https://blog.naver.com/chandong83/220851288433)
 
 > ffmpeg usage
