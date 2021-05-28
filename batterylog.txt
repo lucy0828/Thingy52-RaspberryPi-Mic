@@ -1,0 +1,15 @@
+2021/05/28 07:17:04 Battery level: 95%
+2021/05/28 07:17:49 Battery level: 96%
+2021/05/28 07:17:54 Battery level: 95%
+2021/05/28 07:17:59 Battery level: 96%
+2021/05/28 07:18:04 Battery level: 95%
+2021/05/28 07:18:19 Battery level: 96%
+2021/05/28 07:18:24 Battery level: 95%
+2021/05/28 07:18:29 Battery level: 96%
+2021/05/28 07:18:34 Battery level: 95%
+2021/05/28 07:18:44 Battery level: 96%
+2021/05/28 07:18:49 Battery level: 95%
+2021/05/28 07:18:54 Battery level: 96%
+2021/05/28 07:18:59 Battery level: 95%
+2021/05/28 07:36:03 Battery level: 95%
+2021/05/28 16:20:04 Battery level: 94%
