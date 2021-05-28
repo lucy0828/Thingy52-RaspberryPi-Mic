@@ -34,8 +34,9 @@ var util = require('util');
 5. Microphone.js option '-a' specifies Thingy:52 ID to connect: `sudo node microphone.js -a xxxxxxxxxxxx
 
 ## Microphone 
-1. Create a new folder and clone repository: `mkdir node_modules/thingy52/microphone`
+1. Clone repository and change repository name to `microphone`
 2. Install required npm packages: 
+3. Create folder `audio` to save recorded pcm files: `~/node_modules/thingy52/microphone/audio/`
 ```
 npm install fs
 npm install date-and-time
