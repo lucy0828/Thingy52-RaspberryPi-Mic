@@ -52,6 +52,11 @@ npm install date-and-time
 @xscreensaver -no-splash
 @/home/pi/node_modules/thingy52/microphone/exe.sh
 ```
+> force HDMI output in /boot/config.txt 
+```
+# uncomment if hdmi display is not detected and composite is being output
+hdmi_force_hotplug=1
+``` 
 7. Convert raw pcm to WAV file using ffmpeg
 > [Installing ffmpeg on Raspbian](https://blog.naver.com/chandong83/220851288433)
 
