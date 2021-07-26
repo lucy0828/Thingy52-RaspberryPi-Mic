@@ -68,3 +68,4 @@ ffmpeg -f s16le -ar 16000 -ac 1 -i <input file> <output file>
 * -ar ‘audio rate’ sampling rate = 16K (voice audio)
 * -ac ‘audio channels’ = mono (1)
 * -i ‘input’ file name 
+8. To convert multiple pcm files in `audio` directory, run `./convert_pcm_to_wav` inside the folder 
