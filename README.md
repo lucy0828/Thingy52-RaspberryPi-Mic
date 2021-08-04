@@ -69,3 +69,13 @@ ffmpeg -f s16le -ar 16000 -ac 1 -i <input file> <output file>
 * -ac ‘audio channels’ = mono (1)
 * -i ‘input’ file name 
 8. To convert multiple pcm files in `audio` folder, run `./convert_pcm_to_wav` inside the folder 
+
+## Thingy:52 on Linux 
+To connect and get microphone data from Thingy:52 to Linux OS, run `microphone_wav.js`.
+`microphone_wav.js` connects Thingy:52 with BLE supported Linux device and streams microphone data.
+Unlike `microphone.js`, this wraps pcm data into wav format and saves streaming microphone data in `test.wav` file.
+When microphone is disabled and enabled once again using button, data is overwritten on `test.wav` file. 
+
+To run `microphone_wav.js`: 
+1. Install `npm install wav`
+2. Run `sudo node microphone_wav.js`
