@@ -77,5 +77,6 @@ Unlike `microphone.js`, this wraps pcm data into wav format and saves streaming 
 When microphone is disabled and enabled once again using button, data is overwritten on `test.wav` file. 
 
 To run `microphone_wav.js`: 
-1. Install `npm install wav`
-2. Run `sudo node microphone_wav.js`
+1. Download [Node.js](https://nodejs.org/en/download/)  Linux Binaries (x64).
+2. Install `npm install wav`
+3. Run `sudo node microphone_wav.js`
