@@ -31,6 +31,9 @@
 
 var Thingy = require('../index');
 var fs = require('fs');
+
+var FileWriter = require('wav').FileWriter;
+
 const date = require('date-and-time');
 var connected_thingy;
 var thingy_id;
@@ -153,7 +156,9 @@ function onButtonChange(state) {
     {
 	if (count%2 == 1) {
 	    var file_name = './audio/'+ 'test' + '.pcm';
-	    outF = fs.createWriteStream(file_name, {flags:'w+'});
+	    outF = new FileWriter('./test.wav', {
+		sampleRate: 16000,
+		channels: 1});
 	    connected_thingy.mic_enable(function(error) {
 		console.log('Microphone enabled! ' + ((error) ? error : ''));
 	    });
