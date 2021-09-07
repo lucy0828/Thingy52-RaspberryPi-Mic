@@ -33,17 +33,18 @@ var Thingy = require('../index');
 var fs = require('fs');
 var FileWriter = require('wav').FileWriter;
 const date = require('date-and-time');
+
 var connected_thingy;
 var thingy_id;
-var sound_device;
+
 var button;
+var count = 1;
 var outF;
-var count = 0;
 var led = {
     r : 0,
     g : 10,
     b : 10
-};
+}
 
 /** Intel ADPCM step variation table */
 var INDEX_TABLE = [-1, -1, -1, -1, 2, 4, 6, 8, -1, -1, -1, -1, 2, 4, 6, 8,];
@@ -128,15 +129,66 @@ function adpcm_decode(adpcm) {
 	return pcm;
 }
 
+/** Environment Sensor **/
+var envlog = 'envlog_test.txt';
+var env = {
+    temp: 0,
+    humd:0,
+    co2: 0,
+    voc: 0,
+    red: 0,
+    green: 0,
+    blue: 0,
+    clear: 0
+}
+fs.open(envlog, 'w+', function(err,fd){
+	if (err) throw err;
+	console.log('Environment log file open complete');
+});
+fs.appendFile(envlog, 'Timestamp,Temperature,Humidity,CO2,VOC,Red,Green,Blue,Clear\n', function (err) {
+    if (err) throw err;
+});
+function onTemperatureData(temperature) {
+    env.temp = temperature;
+    console.log('Temperature sensor:' + temperature);
+}
+
+function onHumidityData(humidity) {
+    env.humd = humidity;
+    console.log('Humidity sensor:' + humidity);
+}
+
+function onGasData(gas) {
+    env.co2 = gas.eco2;
+    env.voc = gas.tvoc;
+    console.log('Gas sensor: eCO2 ' + gas.eco2 + ' - TVOC ' + gas.tvoc );
+}
+
+function onColorData(color) {
+    env.red = color.red;
+    env.green = color.green;
+    env.blue = color.blue;
+    env.clear = color.clear;
+    console.log('Color sensor: r ' + color.red +
+                             ' g ' + color.green +
+                             ' b ' + color.blue +
+                             ' c ' + color.clear );
+
+    var now = date.format(new Date(), 'YYYY-MM-DD HH:mm:ss');
+    fs.appendFile(envlog, now + ','  + env.temp + ','  + env.humd + ',' + env.co2 + ',' + env.voc + ',' + env.red + ',' + env.green + ',' + env.blue + ',' + env.clear + '\n', function (err) {
+	if (err) throw err;
+    });
+}
+
 /** Battery Level */
 var batterylog = 'batterylog.txt';
-fs.open(batterylog, 'a+', function(err,fd){
+fs.open(batterylog, 'w+', function(err,fd){
 	if (err) throw err;
 	console.log('Battery log file open complete');
 });
 
 function onBatteryLevelChange(level) {
-	var now = date.format(new Date(), 'YYYY/MM/DD HH:mm:ss');
+	var now = date.format(new Date(), 'YYYY-MM-DD HH:mm:ss');
 	fs.appendFile('batterylog.txt', now + ' Battery level: ' + level + '%\n', function (err) {
 		if (err) throw err;
 	});
@@ -146,29 +198,55 @@ function onBatteryLevelChange(level) {
 /** Microphone-Button-LED */
 function onButtonChange(state) {
     button = state;
-    if (state == 'Pressed')
+    if (state == 'Pressed') 
     {
 	count = count + 1;
     }
     if (state == 'Released')
     {
 	if (count%2 == 1) {
-	    var file_name = './audio/'+ 'test' + '.pcm';
+
+	    /** Define Audio File Name **/
 	    outF = new FileWriter('./audio/test.wav', {
 		sampleRate: 16000,
 		channels: 1});
+
 	    connected_thingy.mic_enable(function(error) {
 		console.log('Microphone enabled! ' + ((error) ? error : ''));
 	    });
+	    connected_thingy.temperature_enable(function(error) {
+	        console.log('Temperature sensor started! ' + ((error) ? error : ''));
+	    });
+	    connected_thingy.humidity_enable(function(error) {
+		console.log('Humidity sensor started! ' + ((error) ? error : ''));
+	    });
+	    connected_thingy.color_enable(function(error) {
+		console.log('Color sensor started! ' + ((error) ? error : ''));
+	    });
+	    connected_thingy.gas_enable(function(error) {
+		console.log('Gas sensor started! ' + ((error) ? error : ''));
+	    });
 	    connected_thingy.led_set(led);
 	}
-	else
-	{
+        else
+        {
+	    connected_thingy.temperature_disable(function(error) {
+                console.log('Temperature sensor stopped! ' + ((error) ? error : ''));
+            });
+            connected_thingy.humidity_disable(function(error) {
+                console.log('Humidity sensor stopped! ' + ((error) ? error : ''));
+            });
+            connected_thingy.color_disable(function(error) {
+                console.log('Color sensor stopped! ' + ((error) ? error : ''));
+            });
+            connected_thingy.gas_disable(function(error) {
+                console.log('Gas sensor stopped! ' + ((error) ? error : ''));
+            });
 	    connected_thingy.mic_disable(function(error) {
 		console.log('Microphone disabled! ' + ((error) ? error : ''));
 	    });
 	    connected_thingy.led_off(led);
-	}
+        }
     }
 }
 
@@ -176,22 +254,15 @@ function onButtonChange(state) {
 /** Decode and write pcm */
 function onMicData(adpcm) {
     var pcm = adpcm_decode(adpcm, true);
-    //console.log(pcm);
     outF.write(pcm);
 }
 
 /** Thingy Discover and Connect */
 function onDiscover(thingy) {
   console.log('Discovered: ' + thingy);
+
   thingy.on('disconnect', function() {
     console.log('Disconnected!');
-    thingy.connectAndSetUp(function(error) {
-      connected_thingy = thingy;
-      console.log('Connected! ' + ((error) ? error : ''));
-      thingy.button_enable(function(error) {
-        console.log('Button enabled! ' + ((error) ? error : ''));
-      });
-    });
   });
 
   thingy.connectAndSetUp(function(error) {
@@ -200,7 +271,49 @@ function onDiscover(thingy) {
     thingy.on('buttonNotif', onButtonChange);
     thingy.on('MicrophoneNotif', onMicData);
     thingy.on('batteryLevelChange', onBatteryLevelChange);
-    
+    thingy.on('temperatureNotif', onTemperatureData);
+    thingy.on('humidityNotif', onHumidityData);
+    thingy.on('gasNotif', onGasData);
+    thingy.on('colorNotif', onColorData);
+
+    thingy.temperature_interval_set(1000, function(error) {
+        if (error) {
+            console.log('Temperature sensor configure! ' + error);
+        }
+    });
+    thingy.pressure_interval_set(1000, function(error) {
+        if (error) {
+            console.log('Pressure sensor configure! ' + error);
+        }
+    });
+    thingy.humidity_interval_set(1000, function(error) {
+        if (error) {
+            console.log('Humidity sensor configure! ' + error);
+        }
+    });
+    thingy.gas_mode_set(1, function(error) {
+        if (error) {
+            console.log('Gas sensor configure! ' + error);
+        }
+    });
+    thingy.color_interval_set(1000, function(error) {
+        if (error) {
+            console.log('Color sensor configure! ' + error);
+        }
+    });
+
+    thingy.temperature_enable(function(error) {
+        console.log('Temperature sensor started! ' + ((error) ? error : ''));
+    });
+    thingy.humidity_enable(function(error) {
+        console.log('Humidity sensor started! ' + ((error) ? error : ''));
+    });
+    thingy.gas_enable(function(error) {
+        console.log('Gas sensor started! ' + ((error) ? error : ''));
+    });
+    thingy.color_enable(function(error) {
+        console.log('Color sensor started! ' + ((error) ? error : ''));
+    });
     thingy.notifyBatteryLevel(function(error) {
       console.log('Battery Level Notifications enabled! ' + ((error) ? error : ''));
     });
@@ -228,5 +341,4 @@ if (!thingy_id) {
 else {
     Thingy.discoverById(thingy_id, onDiscover);
 }
-
 
