@@ -4,7 +4,7 @@ This project is based on [Nordic Thingy:52 Node.js library](https://github.com/N
 > See [RASPBERRYPI.md](https://github.com/NordicPlayground/Nordic-Thingy52-Nodejs/blob/master/RASPBERRYPI.md) for how to set it up on a Raspberry Pi running Raspbian.
 
 ## Installation for Raspbian 
-1. Download [Node.js](https://nodejs.org/en/download/) ARMv7.
+1. Install Node.js on Raspberry Pi: `curl -sL https://deb.nodesource.com/setup_10.x | sudo bash -` `sudo apt install nodejs`
 2. Check Node.js and npm version: `node -v` `npm -v`
 3. Install noble-device: `npm install noble-device`
 4. Install package: `npm install thingy52`
