@@ -207,7 +207,8 @@ function onButtonChange(state) {
 	if (count%2 == 1) {
 
 	    /** Define Audio File Name **/
-	    outF = new FileWriter('./audio/test.wav', {
+	    var now = date.format(new Date(), 'YYYYMMDD-HHmmss');
+	    outF = new FileWriter('/home/pi/node_modules/thingy52/microphone/audio/' + now + '.wav', {
 		sampleRate: 16000,
 		channels: 1});
 
