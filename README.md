@@ -29,7 +29,7 @@ var util = require('util');
 ```
 3. Install required npm packages: `npm install <package name>`
 4. Run example: `sudo node <example_name>.js`
-5. Microphone.js option '-a' specifies Thingy:52 ID to connect: `sudo node microphone.js -a xxxxxxxxxxxx
+5. Microphone.js option '-a' specifies Thingy:52 ID to connect: `sudo node microphone.js -a xxxxxxxxxxxx`
 
 ## microphone.js
 `microphone.js` connects Thingy:52 with Raspberry Pi or BLE supported Linux device and streams microphone data in raw PCM files.
