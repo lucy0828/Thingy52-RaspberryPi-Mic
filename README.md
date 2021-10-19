@@ -45,6 +45,10 @@ npm install date-and-time
 4. When Thingy52 is connected to Raspberry Pi, press button to record
 5. Recorded file is saved as PCM file format
 6. To autostart microphone.js when Raspberry Pi is powered on,
+> allow everyone to execute the script
+```
+chmod +x exe.sh
+```
 > edit /etc/xdg/lxsession/LXDE-pi/autostart to
 ```
 @lxpanel --profile LXDE-pi
