@@ -81,13 +81,13 @@ To run `microphone_wav.js`:
 3. Run `sudo node microphone_wav.js`
 
 ## mic_env.js
-`mic_env.js` connects Thingy:52 with Raspberry Pi or BLE supported Linux device and collects both microphone and environment data.
-Create `log` directory in your root directory.
-When Thingy:52 connects to your BLE device, it enables temperature, humidity, gas and color sensors and log environment data with current date and time to envlog.txt.
-When button is pressed and the LED turns to blue, microphone is enabled and when the button is pressed once again, microphone is disabled and the LED turns off.
-Microphone data is saved in WAV file in `audio` directory as wav files.
-Environment data is logged in envlog.txt in `log` directory.
-Start and end time of recording is logged in buttonlog.txt in `log` directory.
+`mic_env.js` connects Thingy:52 with Raspberry Pi or BLE supported Linux device and collects both microphone and environment data.  
+Create `log` directory in your root directory.  
+When Thingy:52 connects to your BLE device, it enables temperature, humidity, gas and color sensors and log environment data with current date and time to envlog.txt.  
+When button is pressed and the LED turns to blue, microphone is enabled and when the button is pressed once again, microphone is disabled and the LED turns off.  
+Microphone data is saved in WAV file in `audio` directory as wav files.  
+Environment data is logged in envlog.txt in `log` directory.  
+Start and end time of recording is logged in buttonlog.txt in `log` directory.  
 
 To run `mic_env.js`:
 1. Install `npm install wav`
